@@ -1,34 +1,49 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Formik } from "formik";
+import React from "react";
+import { Image, StyleSheet } from "react-native";
+import * as Yup from "yup";
 
-import AppButton from "../components/AppButton";
-import AppTextInput from "../components/AppTextInput";
+import AppFormField from "../components/AppFormField";
+import SubmitButton from "../components/SubmitButton";
 import Screen from "./Screen";
 
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label("Email"),
+  password: Yup.string().min(4).required().label("Password"),
+});
 export default function LoginScreen() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-
   return (
     <Screen style={styles.container}>
       <Image style={styles.logo} source={require("../assets/logo-red.png")} />
-      <AppTextInput
-        autoCaptitalize="none"
-        icon="email"
-        placeholder="Email"
-        autoCorrect={false}
-        keyboardType="email-address"
-        textContentType="emailAddress"
-      />
-      <AppTextInput
-        autoCaptitalize="none"
-        icon="lock"
-        placeholder="Password"
-        autoCorrect={false}
-        textContentType="password"
-        secureTextEntry
-      />
-      <AppButton title="Login" onPress={() => console.log("cat")} />
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        onSubmit={(values) => console.log(values)}
+        validationSchema={validationSchema}
+      >
+        {() => (
+          <>
+            <AppFormField
+            name="email"
+              autoCapitalize="none"
+              icon="email"
+              placeholder="Email"
+              autoCorrect={false}
+              keyboardType="email-address"
+              textContentType="emailAddress"
+            />
+            <AppFormField
+             name="password"
+              autoCapitalize="none"
+              icon="lock"
+              placeholder="Password"
+              autoCorrect={false}
+              textContentType="password"
+              secureTextEntry
+            />
+            <SubmitButton title="Login"/>
+          </>
+        )}
+      </Formik>
     </Screen>
   );
 }
