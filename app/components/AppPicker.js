@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import defaultStyles from "../config/styles";
-import Screen from "../screens/Screen";
+import Screen from "./Screen";
 import AppText from "./AppText";
 import PickerItem from "./PickerItem";
 
