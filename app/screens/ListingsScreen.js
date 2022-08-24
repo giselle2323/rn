@@ -13,23 +13,23 @@ import routes from "../navigation/routes";
 
 const ListingsScreen = ({ navigation }) => {
 
-  const { data: listings, error, loading, request: loadListings } = useApi(listingsApi.getListings)
+  const getListingsApi = useApi(listingsApi.getListings)
 
   React.useEffect(() => {
-    loadListings();
+    getListingsApi.request(1, 2, 3);
   }, []);
 
   return (
     <Screen style={styles.screen}>
-      {error && (
+      {getListingsApi.error && (
         <>
           <AppText>Couldnt retrieve the listings.</AppText>
-          <AppButton title="Retry" onPress={loadListings} />
+          <AppButton title="Retry" onPress={getListingsApi.request} />
         </>
       )}
-      {loading && <ActivityIndicator visible={true}/>}
+      {getListingsApi.loading && <ActivityIndicator visible={true}/>}
       <FlatList
-        data={listings}
+        data={getListingsApi.data}
         keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
           <Card

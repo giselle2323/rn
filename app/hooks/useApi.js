@@ -5,11 +5,11 @@ export default useApi = (apiFunc) => {
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
 
-  const request = async () => {
+  const request = async (...args) => {
     setLoading(true);
-    const response = await apiFunc();
+    const response = await apiFunc(...args);
     setLoading(false);
-    
+
     if (!response.ok) {
       setError(true);
     } else {
