@@ -1,15 +1,10 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
-import useLocation from "../../hooks/useLocation";
 
+import useLocation from "../hooks/useLocation";
 import CategoryPickerItem from "../components/CategoryPickerItem";
-import {
-  AppForm as Form,
-  AppFormField as FormField,
-  AppFormPicker as Picker,
-  SubmitButton,
-} from "../components/forms";
+import { AppForm as Form, AppFormField as FormField, AppFormPicker as Picker, SubmitButton } from "../components/forms";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import Screen from "../components/Screen";
 

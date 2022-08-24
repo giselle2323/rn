@@ -1,49 +1,54 @@
-import React from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import * as React from "react";
+import { FlatList, StyleSheet } from "react-native";
 
-import Card from '../components/Card';
-import ListItem from '../components/ListItem'
-import Screen from '../components/Screen';
-import colors from '../config/colors';
-import routes from '../navigation/routes';
-import listingsApi from '../api/listings';
+import listingsApi from "../api/listings";
+import ActivityIndicator from "../components/ActivityIndicator";
+import AppButton from "../components/AppButton";
+import AppText from "../components/AppText";
+import Card from "../components/Card";
+import Screen from "../components/Screen";
+import colors from "../config/colors";
+import useApi from "../hooks/useApi";
+import routes from "../navigation/routes";
 
+const ListingsScreen = ({ navigation }) => {
 
-const ListingsScreen = ({navigation}) => {
-    const [listings, setListings] = React.useState([]);
+  const { data: listings, error, loading, request: loadListings } = useApi(listingsApi.getListings)
 
-    useEffect(() => {
-        loadListings()
-    }, [])
+  React.useEffect(() => {
+    loadListings();
+  }, []);
 
-    const loadListings = async () => {
-        const response = await listingsApi.getListings();
-        setListings(response.data)
-    }
   return (
     <Screen style={styles.screen}>
-        <FlatList 
-            data={listings} 
-            keyExtractor={listing => listing.id.toString()} 
-            renderItem={({item}) => (
-                <Card 
-                    title={item.title} 
-                    subTitle={'$' + item.price} 
-                    imageUrl={item.images[0].url}
-                    onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
-                />
-            )}  
-        />
-
+      {error && (
+        <>
+          <AppText>Couldnt retrieve the listings.</AppText>
+          <AppButton title="Retry" onPress={loadListings} />
+        </>
+      )}
+      {loading && <ActivityIndicator visible={true}/>}
+      <FlatList
+        data={listings}
+        keyExtractor={(listing) => listing.id.toString()}
+        renderItem={({ item }) => (
+          <Card
+            title={item.title}
+            subTitle={"$" + item.price}
+            imageUrl={item.images[0].url}
+            onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
+          />
+        )}
+      />
     </Screen>
-  )
-}
+  );
+};
 
-export default ListingsScreen
+export default ListingsScreen;
 
 const styles = StyleSheet.create({
-    screen: {
-        padding: 20,
-        backgroundColor: colors.light
-    }
-})
+  screen: {
+    padding: 20,
+    backgroundColor: colors.light,
+  },
+});
