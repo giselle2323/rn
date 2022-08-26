@@ -4,11 +4,13 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { Button } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 
 import Screen from "./app/components/Screen";
 import AppNavigator from "./app/navigation/AppNavigator";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
+import OfflineNotice from "./app/components/OfflineNotice";
 
 const Link = () => {
   const navigation = useNavigation();
@@ -75,7 +77,9 @@ const TabNavigator = () => (
       name="Feed"
       component={Tweets}
       options={{
-        tabBarIcon: ({size, color}) => <MaterialCommunityIcons name="home" size={size} color={color} />,
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons name="home" size={size} color={color} />
+        ),
       }}
     />
     <Tab.Screen name="Account" component={Account} />
@@ -84,8 +88,12 @@ const TabNavigator = () => (
 
 export default function App() {
   return (
-    <NavigationContainer theme={navigationTheme}>
-      <AppNavigator />
-    </NavigationContainer>
+    <>
+      <OfflineNotice />
+      <NavigationContainer theme={navigationTheme}>
+        {/* <AppNavigator /> */} 
+        <AuthNavigator />
+      </NavigationContainer>
+    </>
   );
 }

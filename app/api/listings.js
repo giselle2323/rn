@@ -1,10 +1,33 @@
-import client from './client';
+import client from "./client";
 
+const endpoint = "/listings";
 
-const endpoints = '/listings';
+const getListings = (a, b, c) => client.get(endpoint);
 
-const getListings = (a, b, c) => client.get(endpoints);
+const addListings = (listing, onUploadProgress) => {
+  const data = new FormData();
+  data.append("title", listing.title);
+  data.append("price", listing.price);
+  data.append("categoryId", listing.category.value);
+  data.append("description", listing.description);
+
+  listing.images.forEach((image, index) => {
+    data.append("images", {
+      name: "image" + index,
+      type: "image/jpeg",
+      url: image,
+    });
+  });
+
+  if (listing.location)
+    data.append("location", JSON.stringify(listing.location));
+  return client.post(endpoint, data, {
+    onUploadProgress: (progress) =>
+      onUploadProgress(progress.loaded / progress.total),
+  });
+};
 
 export default {
-    getListings,
-}
+  getListings,
+  addListings,
+};
