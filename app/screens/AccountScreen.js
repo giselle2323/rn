@@ -1,11 +1,11 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
-import Screen from './Screen';
-import ListItem from '../components/ListItem';
-import colors from '../config/colors';
 import Icon from '../components/Icon';
+import ListItem from '../components/ListItem';
 import ListItemSeparator from '../components/ListItemSeparator';
+import Screen from '../components/Screen';
+import colors from '../config/colors';
 
 const menuItems = [
     {
@@ -20,10 +20,11 @@ const menuItems = [
         icon: {
             name:  "email",
             backgroundColor: colors.secondary
-        }
+        },
+        targetScreen: "Messages"
     }
 ]
-const AccountScreen = () => {
+const AccountScreen = ({navigation}) => {
   return (
     <Screen style={styles.screen}>
        <View style={styles.container}>
@@ -42,6 +43,7 @@ const AccountScreen = () => {
                 <ListItem 
                 title={item.title} 
                 IconComponent={<Icon name={item.icon.name} backgroundColor={item.icon.backgroundColor} />}  
+                onPress={() => navigation.navigate(item.targetScreen)}
                 /> 
             } 
         />
