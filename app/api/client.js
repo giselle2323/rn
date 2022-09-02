@@ -1,9 +1,12 @@
 import { create } from "apisauce";
 import cache from "../utilty/cache";
-import authStorage from '../auth/storage'
+import authStorage from '../auth/storage';
+import settings from "../config/settings";
+
+
 
 const apiClient = create({
-  baseURL: "http://192.168.0.159:9000/api/",
+  baseURL:  "http://192.168.0.159:9000/api"
 });
 
 apiClient.addAsyncRequestTransform(async (request) => {
@@ -16,6 +19,7 @@ apiClient.addAsyncRequestTransform(async (request) => {
 const get = apiClient.get;
 apiClient.get = async (url, params, axiosConfig) => {
   const response = await get(url, params, axiosConfig);
+  console.log(settings.apiUrl);
 
   if (response.ok) {
     cache.store(url, response.data);

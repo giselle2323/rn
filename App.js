@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import jwtDecode from "jwt-decode";
 import * as SplashScreen from "expo-splash-screen";
 
 import Screen from "./app/components/Screen";
@@ -13,6 +12,7 @@ import navigationTheme from "./app/navigation/navigationTheme";
 import OfflineNotice from "./app/components/OfflineNotice";
 import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
+import { navigationRef } from "./app/navigation/RootNavigation";
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => (
@@ -95,12 +95,14 @@ export default function App() {
   }, [isReady]);
 
   if (!isReady) return null;
+
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <OfflineNotice />
       <NavigationContainer
         theme={navigationTheme}
         onReady={onNavigationContainerReady}
+        ref={navigationRef}
       >
         {/* <AppNavigator /> */}
         {user ? <AppNavigator /> : <AuthNavigator />}

@@ -1,21 +1,36 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import {Image} from "react-native-expo-image-cache";
+import * as React from "react";
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from "react-native";
+import { Image } from "react-native-expo-image-cache";
 
-import AppText from "../components/AppText";
-import ListItem from "../components/ListItem";
 import colors from "../config/colors";
+import ContactSellerForm from "../components/ContactSellerForm";
+import ListItem from "../components/ListItem";
+import Text from "../components/AppText";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
-function ListingDetailsScreen({route}) {
-
+function ListingDetailsScreen({ route }) {
   const listing = route.params;
 
   return (
-    <View>
-      <Image source={listing.images[0]} style={styles.image} preview={{uri: listing.images[0].thumbnailUrl}} tint="light" />
+    <KeyboardAvoidingView
+      behavior="position"
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
+    >
+      <Image
+        style={styles.image}
+        preview={{ uri: listing.images[0].thumbnailUrl }}
+        tint="light"
+        uri={listing.images[0].url}
+      />
       <View style={styles.detailsContainer}>
-        <AppText style={styles.title}>{listing.title}</AppText>
-        <AppText style={styles.price}>${listing.price}</AppText>
+        <Text style={styles.title}>{listing.title}</Text>
+        <Text style={styles.price}>${listing.price}</Text>
         <View style={styles.userContainer}>
           <ListItem
             image={require("../assets/mosh.jpg")}
@@ -23,12 +38,11 @@ function ListingDetailsScreen({route}) {
             subTitle="5 Listings"
           />
         </View>
+        <ContactSellerForm listing={listing} />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
-
-export default ListingDetailsScreen;
 
 const styles = StyleSheet.create({
   detailsContainer: {
@@ -49,6 +63,8 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   userContainer: {
-    marginVertical: 40
-  }
+    marginVertical: 40,
+  },
 });
+
+export default ListingDetailsScreen;
