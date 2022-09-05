@@ -1,12 +1,13 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
+
+import useNotifications from "../hooks/useNotifications";
 import ListingEditScreen from "../screens/ListingEditScreen";
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
 import NewListingsButton from "./NewListingsButton";
 import routes from "./routes";
-import useNotifications from "../hooks/useNotifications";
 
 const Tab = createBottomTabNavigator();
 
@@ -42,7 +43,7 @@ const AppNavigator = () => {
         })}
       />
       <Tab.Screen
-        name="Account"
+        name="Account Section"
         component={AccountNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (

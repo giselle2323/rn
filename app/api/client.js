@@ -6,7 +6,7 @@ import settings from "../config/settings";
 
 
 const apiClient = create({
-  baseURL:  "http://192.168.0.159:9000/api"
+  baseURL:  "https://giveaway-app.onrender.com/api"
 });
 
 apiClient.addAsyncRequestTransform(async (request) => {
