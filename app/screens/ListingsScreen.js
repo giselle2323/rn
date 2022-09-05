@@ -12,36 +12,38 @@ import useApi from "../hooks/useApi";
 import routes from "../navigation/routes";
 
 const ListingsScreen = ({ navigation }) => {
-
-  const getListingsApi = useApi(listingsApi.getListings)
+  const getListingsApi = useApi(listingsApi.getListings);
 
   React.useEffect(() => {
     getListingsApi.request(1, 2, 3);
   }, []);
 
   return (
-    <Screen style={styles.screen}>
-      {getListingsApi.error && (
-        <>
-          <AppText>Couldnt retrieve the listings.</AppText>
-          <AppButton title="Retry" onPress={getListingsApi.request} />
-        </>
-      )}
-      {getListingsApi.loading && <ActivityIndicator visible={true}/>}
-      <FlatList
-        data={getListingsApi.data}
-        keyExtractor={(listing) => listing.id.toString()}
-        renderItem={({ item }) => (
-          <Card
-            title={item.title}
-            subTitle={"$" + item.price}
-            imageUrl={item.images[0].url}
-            onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
-            thumbnailUrl={item.images[0].thumbnailUrl}
-          />
+    <>
+      <ActivityIndicator visible={getListingsApi.loading} />
+      <Screen style={styles.screen}>
+        {getListingsApi.error && (
+          <>
+            <AppText>Couldnt retrieve the listings.</AppText>
+            <AppButton title="Retry" onPress={getListingsApi.request} />
+          </>
         )}
-      />
-    </Screen>
+
+        <FlatList
+          data={getListingsApi.data}
+          keyExtractor={(listing) => listing.id.toString()}
+          renderItem={({ item }) => (
+            <Card
+              title={item.title}
+              subTitle={"$" + item.price}
+              imageUrl={item.images[0].url}
+              onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
+              thumbnailUrl={item.images[0].thumbnailUrl}
+            />
+          )}
+        />
+      </Screen>
+    </>
   );
 };
 
