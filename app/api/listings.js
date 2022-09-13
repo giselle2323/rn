@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 import client from "./client";
 
 const endpoint = "/listings";
@@ -11,11 +13,14 @@ const addListings = (listing, onUploadProgress) => {
   data.append("categoryId", listing.category.value);
   data.append("description", listing.description);
 
+  console.log(listing.images);
+
   listing.images.forEach((image, index) => {
     data.append("images", {
       name: "image" + index,
       type: "image/jpeg",
-      url: image,
+      uri: image
+      // url: 'https://moshbucket1.s3.us-east-2.amazonaws.com/couch3_full.jpg',
     });
   });
 

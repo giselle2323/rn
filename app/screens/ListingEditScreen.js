@@ -2,17 +2,12 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
-import useLocation from "../hooks/useLocation";
+import listingsApi from "../api/listings";
 import CategoryPickerItem from "../components/CategoryPickerItem";
-import {
-  AppForm as Form,
-  AppFormField as FormField,
-  AppFormPicker as Picker,
-  SubmitButton,
-} from "../components/forms";
+import { AppForm as Form, AppFormField as FormField, AppFormPicker as Picker, SubmitButton } from "../components/forms";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import Screen from "../components/Screen";
-import listingsApi from "../api/listings";
+import useLocation from "../hooks/useLocation";
 import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
@@ -38,6 +33,8 @@ function ListingEditScreen() {
   const handleSubmit = async (listing, { resetForm }) => {
     setProgress(0);
     setUploadVisible(true);
+
+    console.log(listing, 'lisiting-log');
 
     const result = await listingsApi.addListings(
       { ...listing, location },

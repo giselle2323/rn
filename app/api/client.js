@@ -1,12 +1,13 @@
 import { create } from "apisauce";
-import cache from "../utilty/cache";
+
 import authStorage from '../auth/storage';
 import settings from "../config/settings";
-
-
+import cache from "../utilty/cache";
 
 const apiClient = create({
-  baseURL:  "https://giveaway-app.onrender.com/api"
+  // baseURL:  "https://giveaway-app.onrender.com/api",
+  baseURL:  "http://192.168.0.159:9000/api",
+  //https://moshbucket1.s3.us-east-2.amazonaws.com/couch3_full.jpg
 });
 
 apiClient.addAsyncRequestTransform(async (request) => {
